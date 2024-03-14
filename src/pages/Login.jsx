@@ -20,23 +20,18 @@ function Login() {
           }
         };
         const {data} = await axios.post(process.env.REACT_APP_API_KEY+'/user/login', JSON.stringify(jsonData),config);
+        console.log(data);
     
         if (data.success){
-          let newData  = data.user
-          setAuth(newData);
           toast.success(data.message);
+          setAuth(data.token);
           navigate("/")
         }else{
           toast.error(data.message);
         }
         
       }
-    useEffect(() => {
-        if (auth.user) {
-          navigate("/");
-        }
-    }, [auth.user, navigate]);
-    if(auth.user) return <Navigate to="/" replace/>
+    if(auth) return <Navigate to="/" replace/>
     
     return (    
 

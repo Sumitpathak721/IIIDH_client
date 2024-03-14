@@ -4,16 +4,14 @@ import { Navigate } from "react-router-dom";
 
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({
-    user: null,
-    token:"",
-    loading:true
-  });
+  const [authToken, setAuthToken] = useState(null);
+  const [loading,setLoading] = useState(true);
 
-  const resetAuth = (auth)=>{
-    setAuth(auth)
-    axios.defaults.headers.common['Authorization'] = auth.token;
-    localStorage.setItem("auth",JSON.stringify(auth))
+  const resetToken = (token)=>{
+    setAuthToken(token)
+    setLoading(false)
+    axios.defaults.headers.common['Authorization'] = token;
+    localStorage.setItem("token",token)
     return <Navigate to="/" />
   }
 
@@ -22,32 +20,17 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const func = async()=>{
       try{
-        const data = localStorage.getItem("auth");
-        
-        if (data!=null) {
-          const parseData = await JSON.parse(data);
-          setAuth({
-            ...auth,
-            user: parseData.user,
-            token:parseData.token,
-            loading:false
-          });
-          axios.defaults.headers.common['Authorization'] = parseData.token;
+        const token = localStorage.getItem("token");
+        if (token) {
+          // const parseData = await JSON.parse(data);
+          setAuthToken(token);
+          axios.defaults.headers.common['Authorization'] = token;
         }else{
-          setAuth({
-            ...auth,
-            user:null,
-            token:'',
-            loading:false
-          });
+          setAuthToken("");
         }
+        setLoading(false);
       }catch(e){
-        setAuth({
-          ...auth,
-          user:null,
-          token:'',
-          loading:false
-        });
+        setAuthToken("");
         console.log("Error in AuthContext",e);
       }
     }
@@ -55,8 +38,8 @@ const AuthProvider = ({ children }) => {
     //eslint-disable-next-line
   }, []);
   return (
-    <AuthContext.Provider value={[auth, resetAuth]}>
-      {auth.loading ? (
+    <AuthContext.Provider value={[authToken, resetToken]}>
+      {loading ? (
         // Render a loading indicator while authentication data is being fetched
         <div>Loading...</div>
       ) : (
