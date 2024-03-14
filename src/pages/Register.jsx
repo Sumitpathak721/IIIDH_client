@@ -21,11 +21,11 @@ function Register() {
         'Content-Type': 'application/json'
       }
     };
-    const response = await axios.post(process.env.REACT_APP_API_KEY+'/user/register', JSON.stringify(jsonData),config);
-    if (response.status===201){
-      toast.success(response.data);
+    const {data} = await axios.post(process.env.REACT_APP_API_KEY+'/user/register', JSON.stringify(jsonData),config);
+    if (data.success){
+      toast.success(data.message);
     }else{
-      toast.error(response.data);
+      toast.error(data.message);
     }
     
   }
@@ -39,9 +39,9 @@ function Register() {
         <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Enter your email"/>
         <label for="role">Role</label>
-        <select>
-            <option value="user">User</option>
-            <option value="doctor">Doctor</option>
+        <select name='role' type='number' id="role">
+            <option value="1">User</option>
+            <option value="2">Doctor</option>
         </select>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter your password"/>

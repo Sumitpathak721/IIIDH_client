@@ -21,20 +21,13 @@ function Login() {
         };
         const {data} = await axios.post(process.env.REACT_APP_API_KEY+'/user/login', JSON.stringify(jsonData),config);
     
-        if (data.status){
-          console.log(data);
-          let newData  = {
-            user:{
-              id:data.id,
-              name:data.username
-            },
-            token:data.token
-          }
+        if (data.success){
+          let newData  = data.user
           setAuth(newData);
           toast.success(data.message);
           navigate("/")
         }else{
-          toast.error(data.message+"!!");
+          toast.error(data.message);
         }
         
       }
