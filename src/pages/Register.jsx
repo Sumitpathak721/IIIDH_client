@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import axios from "axios"
 
 function Register() {
-  const [auth,setAuth] = useAuth()
+  const [auth] = useAuth()
   const handleSubmit = async(event) => {
     event.preventDefault();
     
@@ -22,7 +22,7 @@ function Register() {
       }
     };
     const response = await axios.post(process.env.REACT_APP_API_KEY+'/user/register', JSON.stringify(jsonData),config);
-    if (response.status==201){
+    if (response.status===201){
       toast.success(response.data);
     }else{
       toast.error(response.data);

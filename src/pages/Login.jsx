@@ -2,6 +2,7 @@ import React, { useEffect} from 'react'; // Import useState for controlled input
 import { useAuth } from '../context/auth.js'; // Import the useAuth hook
 import { Link, Navigate,useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import axios from 'axios';
 
 function Login() {
     const [auth, setAuth] = useAuth();

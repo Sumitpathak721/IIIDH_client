@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes, Route, Router } from "react-router-dom";
+import { BrowserRouter,Routes, Route} from "react-router-dom";
 import { AuthProvider } from "./context/auth.js";
 import PrivateRoute from './components/PrivateRoute.jsx';
 import HomeLayout from './components/HomeLayout.jsx';
